@@ -1,1 +1,245 @@
-hi os
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+
+  <title>CS Course Structure</title>
+
+  <link rel="stylesheet" type="text/css" href="stylefolder/mystyle.css">
+
+
+</head>
+
+
+
+<body>
+
+
+  <h1 class="pinkgreen_word">CS 5129 Operating System</h1>
+  <h4>Rui Dai</h4>
+
+
+  <h3>Chap 8. Main Memory</h3>
+  <a href="https://qqshigesha.github.io/fff/">visit AI</a>
+
+
+  <h4>
+   The difference between the compile time address binding and execution time (run time) address binding. 
+ </h4>
+
+ <p>
+  The difference between load-time and run-time binding is that in run-time every time there is a memory lookup it goes through a "relocation register" which is like the base register and then you add an offset.
+  <div class="pinkblue_background">In load-time binding it does the same thing but subsequent lookups don't require evaluation of this register. The addresses are set when it is first pulled into memory. Hence if the base address changes you need to re-load the whole process to fix up all the relocatable addresses.
+  </div>
+
+
+  In the case of run-time, you can move the process around in physical memory and not need to worry about re-loading it to fix the mapping up because every time there is an access to memory it maps it then.
+
+  Load-time binding results in matching logical/physical addresses but run-time results in differing logical/physical addresses.
+
+</p>
+
+<h4>Does the swapped out process need to swap back in to same physical addresses?
+</h4>
+
+<p>
+  compile-time or load-time address binding, swapped back into the same memory location.
+  execution time binding, swapped back into any available location.
+</p>
+
+
+
+<h3>8.3 Contiguous Memory Allocation</h3>
+<ul>
+  <li>Memory Protection</li>
+  <p> protection against user programs accessing areas that they should not</p>
+  <li>Memory Allocation</li>
+  <p>strategies for finding the "best" allocation of memory to processes, First fit, Best fit, Worst fit</p>
+  <li>Fragmentation</li>
+  <p>external fragmentation & Internal fragmentation</p>
+  To deal with fragmentation:
+  <ul>
+    <li>compaction</li>
+    <p>If the programs in memory are relocatable, ( using execution-time address binding ), then the external fragmentation problem can be reduced via compaction, i.e. moving all processes down to one end of physical memory. This only involves updating the relocation register for each process, as all internal work is done using logical addresses.</p>
+    <li>Segmentation</li>
+    <p>Another solution is allow processes to use non-contiguous blocks of physical memory, with a separate relocation register for each block.</p>
+  </ul>
+</ul>
+
+
+
+
+<h3>8.4 Memory Segmentation</h3>
+<ul>
+  <li>Basic Method (Programmer's view of a program.)</li>
+  We think of memory in multiple segments, each dedicated to a particular use, such as code, data, the stack, the heap, etc. Memory segmentation supports this view by providing 
+  <center>(segment number ( mapped to a segment base address ) ,  offset from the beginning of that segment.)</center>
+  <img src="images/segmentation.jpg"/>
+
+</ul>
+
+Segmentation permits the physical address space of a process to be non-contiguous. Paging is another memory-management scheme that offer these advantage. And more, avoid external fragmentation. Now, the logical address space is totally separated from the physical space. So, a process can have a address space even larger than the physical memory.
+
+<h3>8.5 Paging</h3>
+
+Paging: eliminates most of the problems of the other methods discussed previously, and is the predominant memory management technique used today. Paging is a memory management scheme that allows processes physical memory to be discontinuous, and which eliminates problems with fragmentation by allocating memory in equal sized blocks known as pages.
+<h4>  8.5.1 Basic Method (pages --- frames)</h4>
+divide physical memory into a number of equal sized blocks called frames,  divide a programs logical memory space into blocks of the same size called pages.
+<img src="images/paging.jpg"/>
+
+<p style="color:#FF7433;">Page lookups must be done for every memory reference, and whenever a process gets swapped in or out of the CPU, its page table must be swapped in and out too, along with the instruction registers, etc. </p>
+
+
+<h4>8.5.2 Hardware Support (TLB)</h4>
+<ul>
+  <li>One option is to use a set of registers for the page table.</li>
+  <li>An alternate option is to store the page table in main memory, and to use a single register ( PTBR,  the page-table base register) to record where in memory the page table is located.</li>
+  <ul>
+    <li>The problem with this approach is the time required to access a user memory location: Two memory accesses needed to access a byte (1. page table entry; 2. byte). Memory access is slowed by a factor of 2.</li>
+    <li>Solution:  use a special high speed memory device, (TLBs)</li>
+    (TLBs) Translation look-aside buffers, also called 
+    associative memory, is a fast-lookup hardware cache. 
+  </ul>
+
+
+
+  <li>Effective Memory-access time</li>
+
+</ul>
+
+
+<h4>8.5.3 Memory Protection</h4>
+
+<ul>
+  <li>valid/invalid bits</li>
+  Valid / invalid bits can be added to "mask off" entries in the page table that are not in use by the current process
+  <img src="images/pagetable.jpg"/>
+
+  <li>(PTLR)page table length register</li>
+  Rather than waste memory by creating a full-size page table for every process to specify the length of the page table
+</ul>
+
+<h4>8.5.4 Shared Pages</h4>
+A advantage of paging is the possibility of sharing common code. This consideration is particularly important in a time sharing environment.
+<img src="images/sharedpages.jpg"/>
+
+<h3>Structure of the Page Table</h3>
+
+<h4>8.6.1 Hierarchical Paging</h4>
+We will not want to allocate the page table contiguously in main memory. One solution is divide the page table into smaller pieces.
+<ul>
+  <li>Two level paging algorithm (forward-mapped page table)</li>
+  Page table itself is also paged.
+  <img src="images/twopages.jpg"/>
+  <li>Three or more level paging scheme (would be slow memory access)</li>
+  With a 64-bit logical address space and 4K pages, there are 52 bits worth of page numbers, which is still too many even for two-level paging. One could increase the paging level, but with 10-bit page tables it would take 7 levels of indirection, which would be prohibitively slow memory access. So some other approach must be used.
+
+  Solution: handling address spaces larger than 32 bits is to use a hashed table.
+
+</ul>
+
+<h4>8.6.2 Hashed Page Tables</h4>
+One common data structure for accessing data that is sparsely distributed over a broad range of possible values is with hash tables.
+
+<h4>8.6.3 Inverted Page Tables</h4>
+
+an inverted page table lists all of the pages currently loaded in memory, for all processes.
+
+
+
+
+<h3>chap 9 Virtual Memory</h3>
+<ul>
+  <li>Demand Paging</li>
+  <li>Copy-on-Write</li>
+  <li>Page Replacement</li>
+  Find some page in memory that isn't being used right now, and swap that page only out to disk, freeing up a frame that can be allocated to the process requesting it. 
+  <ul>
+    <li>Basic Page Replacement</li>
+    <li>victim frame</li>
+    <li>FIFO Page Replacement</li>
+    <li>Optimal Page Replacement</li>
+    <img src="images/optimal_page_replacement.jpg">
+
+    <li>LRU Page Replacement  </li>
+    <li>LRU-Approximation Page Replacement</li>
+    <li>Counting-Based Page Replacement</li>
+  </ul>
+
+  <li>Allocation of Frames</li>
+  <li>Thrashing</li>
+  <li>Memory-Mapped Files</li>
+  <li>Allocating Kernel Memory</li>
+</ul>
+
+
+<h1 class="pinkgreen_word">CS 5110 Database Management</h1>
+<h4>Karen Davis</h4>
+
+<h3>Chap 01 SQL</h3>
+
+<h3>Chap 02 ER Entity-Relationship model</h3>
+
+<h3>Chap 03 Ralational Database Design</h3>
+
+<h3>Chap 04 Physical Storage Design</h3>
+
+<h3>Chap 05 Transaction Processing and Recovery</h3>
+
+<h3>Chap 06 Concurrency Control</h3>
+
+
+
+<h1 class="pinkgreen_word">CS 5133  Introduction to Artificial Intelligence</h1>
+<h4>Anca Ralescu</h4>
+
+<h3>Chap 01 Problem solving, uninformed search </h3>
+
+<h3>Chap 02 A star Search, heuristic function</h3>
+
+<h3>Chap 03 Local search, Constraints Satisfaction</h3>
+
+<h3>Chap 04 Adersarial Search</h3>
+
+<h3>Chap 05 Logic</h3>
+
+<h3>Chap 06 Uncertainty</h3>
+
+Structure from Berkely --- Dan Klein
+<h3>Part 1: Making Decisions</h3>
+<ul>
+  <li>Fast search/planning</li>
+  <ul>
+    <li>  A rational agent selects actions that maximize its
+      (expected) utility.</li>
+      <li>Uninformed Search Methods</li>
+      <ul>
+        <li>Depth-First Search</li>
+        <li>Breadth-First Search</li>
+        <li>Uniform-Cost Search</li>
+      </ul>
+
+    </ul>
+    <li>Constraint Satisfaction</li>
+    <li>Adversarial and uncertain search</li>
+  </ul>
+
+  <h3>Part 2: Reasoning under Uncertainty</h3>
+  <ul>
+    <li>Bayes’nets</li>
+    <li>Decision theory</li>
+    <li>Machine learning</li>
+  </ul>
+
+
+  <h3>Throughout: Applications</h3>
+  <ul>
+    <li>Natural language</li>
+    <li>vision</li>
+    <li>robotics</li>
+    <li>games</li>
+  </ul>
+
+</body>
+</html>
