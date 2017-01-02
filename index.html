@@ -20,10 +20,466 @@
   <h4>Rui Dai</h4>
 
 
+
+  <h3>Chap 1. Introduction to OS </h3>
+  <h4>1.1 What Operating Systems Do --- For Users and Applications</h4>
+  <ul>
+    <li>Computer = HW + OS + Apps + Users</li>
+    <li>OS serves as interface between HW and ( Apps & Users )</li>
+  </ul>
+
+  <h4>1.2 Computer-System Organization - What are all the parts, and how do they fit together?</h4>
+  <img src="images/computer_system.jpg"/>
+
+  <h4>1.2.1 Computer-System Operation</h4>
+  <ul>
+    <li>Shared Memory between CPU and I/O cards</li>
+    <li>Time slicing for multi-process operation</li>
+    <li>Interapt handling</li>
+  </ul>
+
+
+  <h4>1.2.2 Storage Structure</h4>
+    <img src="images/storage.jpg"/>
+
+  <ul>
+    <li>Main Memory RAM (Random-Access Memory)</li>
+    <li>Other electronic memory is faster, smaller, and more expensive per bit</li>
+    <li>Non volatile memory</li>
+  </ul>
+
+  <h4>1.2.3 I/O Structure</h4>
+  Typical operation involves I/O requests, direct memory access ( DMA ), and interrupt handling.
+
+
+<h4>1.3 Computer-System Architecture - Different Operating Systems for Different Kinds of Computer Environments</h4>
+<ul>
+  <li>Single-Processor Systems</li>
+  <li>Multiprocessor Systems</li>
+  <li>Clustered Systems</li>
+  <img src="images/cluster.jpg"/>
+  Independent systems, with shared common storage and connected by a high-speed LAN, working together.
+</ul>
+
+<h3>1.4 Operating-System Structure</h3>
+A time-sharing ( multi-user multi-tasking ) OS requires:
+<ul>
+  <li>Memory management</li>
+  <ul>
+  <li>Keeping track of which blocks of memory are currently in use, and by which processes.</li>
+  <li>Determining which blocks of code and data to move into and out of memory, and when.</li>
+  <li>Allocating and deallocating memory as needed.</li>
+  </ul>
+
+
+
+
+  <li> Process management</li>
+ <ul>
+    <li>Creating and deleting both user and system processes</li>
+    <li>Ensuring that each process receives its necessary resources, without interfering with other processes.</li>
+    <li>Suspending and resuming processes</li>
+    <li>Process synchronization and communication</li>
+    <li>Deadlock handling</li>
+  </ul>
+
+  <li>Job scheduling</li>
+  <li>Resource allocation strategies</li>
+  <li>Swap space / virtual memory in physical memory</li>
+  <li>Interrupt handling</li>
+  <li>File system management</li>
+  <li>Protection and security</li>
+  <li>Inter-process communications</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+<h4>Chap 2 Operating-System Structures</h4>
+
+<h3>2.1 Operating-System Services</h3>
+
+<img src="images/gui.jpg"/>
+One set of operating system services provides functions that are helpful to the user.
+<ul>
+  <li>UI user interface</li>
+  <ul>
+    <li>CLI command line interface</li>
+    uses text commands and a method for entering them
+    <li>Batch interface</li>
+    commands and directives to control those commands are entered into files, and those files are executed
+    <li>GUI graphical user interface</li>
+  </ul>
+  <li>Program execution</li>
+  <li>I/O operations</li>
+  <li>File-System manipulation</li>
+  Programs need to read, write, create, delete and search file and directories.
+  <li>Communications</li>
+  One process needs to exchange information with another process.
+  <ul>
+    <li>shared memory</li>
+    two or more processes read and write to a shared section of memory
+    <li>message passing</li>
+    packets of information in predefined formats are moved between processes by the operating system.
+  </ul>
+  <li>Errordetection</li>
+</ul>
+
+Another set of operating system functions exist for ensuring the efficient operation of the system itself.
+<ul>
+  <li>Resource allocation</li>
+  <li>Accounting</li>
+  keep track of which users use how much and what kinds of computer resources.
+  <ul>
+    <li>users can be billed</li>
+    <li>accumulating usage statistics</li>
+    Usage statistics may be a valuable tool for researchers who wish to reconfigure the system to improve computing services.
+  </ul>
+  <li>Protection and security</li>
+
+</ul>
+<h4>2.2 User and Operating System Interface</h4>
+Two fundamental approaches to interface with the OS.
+<ul>
+  <li>Command Interpreters (Command-line interface)</li>
+  
+  <ul>
+    <li>Command Interpreters, allows users to directly enter commands to be performed by the operating system.</li>
+    <li>On systems with multiple command interpreters to choose from, the interpreters are known as shells.</li>
+  </ul>
+  
+  On systems with multiple command interpreters to choose from, the interpreters are known as shells.
+
+
+  <li>Graphical User Interface</li>
+</ul>
+
+
+<h4>2.3 System Calls</h4>
+It provide a means for user or application programs to call upon the services of the operating system.
+<ul>
+  <li>Frequently, systems execute thousands of system calls per second.</li>
+  <li>application developers design programs according to an (API) application programming interface. The functions that make up an API typically invoke the actual system calls on behalf of the application programmer. </li>
+  <ul>
+    <li>Windows API for Windows systems</li>
+    <li>POSIX API for POSIX-based systems (which include virtually all versions of UNIX, Linux, and Mac OS X)</li>
+    <li>Java API for programs that run on the Java virtual machine. </li>
+  </ul>
+</ul>
+
+
+<h4>2.4 Types of System Calls</h4>
+System calls can be grouped roughly into six major categories:
+<ul>
+  <li>Process control</li>
+  <ul>
+    <li>MS-DOS --- single-tasking system</li>
+    This system uses a simple method to run a program and does not create a new process. It loads the program into memory, writing over most of itself to give the program as much memory as possible.
+    <li>FreeBSD --- multitasking system</li>
+    Command interpreter may continue running while another program is executed.
+  </ul>
+  <li>File manipulation</li>
+
+  <li>Device manipulation</li>
+  Devices are various resources controlled by the operating system. Include physical and abstract or virtual devices (files).
+  <ul>
+
+    <li>Main Memory</li>
+    <li>Disk drives</li>
+    <li>Access to files</li>
+  </ul>
+  <li>Information maintenance</li>
+  <ul>
+    <li>Many system calls exist simply for the purpose of transfering information between the user program and the OS. </li>
+    <li>Another set of system calls is helpful in debugging a program</li>
+  </ul>
+  <li>Communication</li>
+  Two common models of interprocess communication:
+  <ul>
+    <li>message-passing model</li>
+    the communicating processes exchange messages directly or indirectly, with one another, throught a mailbox to transfer information.
+    <li>shared-memory model</li>
+    processes use system calls to create and gain access to regions of memory owned by other processes.
+  </ul>
+
+  
+  <li>Protection</li>
+  It provides a mechanism for controlling access to the resources provided by a computer system.
+</ul>
+
+
+<h4>2.5 System Programs (system utilities)</h4>
+Another aspect of a modern system is its collection of system programs. They provide a convenient environment for program development and execution.
+
+
+
+<h4>2.6 Operating-System Design and Implementation</h4>
+<ul>
+  <li>Design Goals</li>
+  <ul>
+    <li>User Goals</li>
+    <li>System Goals</li>
+  </ul>
+  <li>Mechanisms and Policies</li>
+  <li>Implementation</li>
+</ul>
+
+
+<h4>2.7 Operating-System Structure</h4>
+<ul>
+  <li>Simple Structure</li>
+  Many operating systems do not have well-defined structures.
+  <ul>
+    <li>MS-DOS</li>
+    the interfaces and levels of functionality are not well separated.
+    <li>original UNIX OS</li>
+    an enormous amount of functionality to be combined into one level. This monolithic structure was difficult to implement and maintain.
+  </ul>
+ <li>Layered Approach</li>
+ With proper hardware support, operating systems can be broken into pieces that are smaller and more appropriate than those allowed by the original MS-DOS and UNIX systems.
+ A system can be made modular in many ways. One method is the layered approach, in which the operating system is broken into a number of layers (levels). 
+ <img src="images/layered_os.jpg"/>
+ 
+  <ul>
+  <li>An operating-system layer is an implementation of an abstract object made up of data and the operations that can manipulate those data. Lower-level layers can be invoked by higher-level layers.</li>
+
+  <li>The main advantage of the layered approach is simplicity of construction and debugging. The layers are selected so that each uses functions (operations) and services of only lower-level layers.</li>
+
+  <li>Each layer is implemented only with operations provided by lower-level layers. A layer does not need to know how these operations are implemented; it needs to know only what these operations do. Hence, each layer hides the existence of certain data structures, operations, and hardware from higher-level layers.</li>
+  
+  <li>Major difficulty with layered approach: defining the various layers</li>
+
+  <li>A final problem: it tend to be less efficient than other layers. Now, few layers with more functionality are being designed. </li>
+  </ul>
+
+  <li>Microkernels</li>
+  As UNIX expanded, the kernel became large and difficult to manage. CMU developed an OS called Mach that modularized the kernel using the microkernel approach.
+<ul>
+<li>This method structures the operating system by removing all nonessential components from the kernel and implementing them as system and user-level programs. The result is a smaller kernel. </li>
+  <li>microkernels provide minimal process and memory management, in addition to a communication facility.</li>
+  <li>The main function of the microkernel is to provide communication between the client program and the various services that are also running in user space. Communication is provided through message passing.</li>
+  <li>Mac OS X kernel (also known as Darwin) is also partly based on the Mach microkernel.</li>
+  <li>Performance of microkernels can suffer due to increased system-function overhead.</li>
+</ul>
+<li>Modules</li>
+<li> The best current methodology for OS design involves loadable kernel modules.</li>
+<li>The idea of the design is for the kernel to provide core services while other services are implemented dynamically, as the kernel is running. </li>
+<li>Hybrid System</li>
+In practice, very few operating systems adopt a single, strictly defined structure. Instead, they combine different structures, resulting in hybrid systems that address performance, security, and usability issues. 
+<ul>
+  <li>Mac OS X</li>
+  The Cocoa environment specifies an API for the Objective-C programming language, which is used for writing Mac OS X applications.
+  <li>iOS</li>
+  Structured on the Mac OS X. 
+</ul>
+
+<li>Android</li>
+<ul>
+  <li>At the bottom of this software stack is the Linux kernel, although it has been modified by Google</li>
+  <li> Software designers for Android devices develop applications in the Java language. However, rather than using the standard Java API, Google has designed a separate Android API for Java development.</li>
+</ul>
+</ul>
+
+
+
+<h4>2.8 Operating-System Debugging</h4>
+<ul>
+  <li>Failure Analysis</li>
+  <li>Performance Tuning</li>
+  <li>DTrace</li>
+</ul>
+
+<h4>2.9 Operating-System Generation</h4>
+system generation SYSGEN.
+
+<h4>2.10 System Boot</h4>
+
+<ul>
+  <li>booting the system: The procedure of starting a computer by loading the kernel</li>
+  <li>bootstrap program or bootstrap loader locates the kernel, loads it into main memory, and starts its execution.</li>
+</ul>
+
+<h4>2.11 Summary</h4>
+
+
+
+<h3>Chap 3. Processe</h3>
+<ul>
+  <li>Process: a program in execution.
+</li>
+  <li>A process is the unit of work in a modern time-sharing system.
+</li>
+  <li>A system therefore consists of a collection of processes: operating- system processes executing system code and user processes executing user code.</li>
+  <li>By switching the CPU between processes, the operating system can make the computer more productive.</li>
+</ul>
+
+<h4>3.1 Process Concept</h4>
+
+<ul>
+<li>The Process</li>
+<ul>
+  <li>Informally, as mentioned earlier, a process is a program in execution</li>
+  <img src="images/process.jpg"/>
+
+  <li>The structure of a process in memory.</li>
+</ul>
+
+<li>Process State</li>
+  <img src="images/program_state.jpg"/>
+<p> The state of a process: defined in part by the current activity of that process. </p>
+
+
+
+ <li>Process Control Block</li>
+ <img src="images/pcb.jpg"/>
+
+ <ul>
+   <li>Each process is represented in the OS by a (PCB) process control block — also called a task control block.</li>
+   <li>A PCB contains many pieces of information associated with a specific process, including these:</li>
+   <ul>
+     <li>Process State</li>
+     <li>Program counter</li>
+     The counter indicates the address of the next instruction to be executed for this process.
+     <li>CPU register</li>
+     Plus program counter, the state information must be saved when the process to be continued afterward.
+     <li>CPU-scheduling information</li>
+     <li>Memory-managment information</li>
+     <li>Accounting information</li>
+     <li>I/O status information</li>
+   </ul>
+   <li>the PCB simply serves as the repository for any information that may vary from process to process.
+</li>
+ </ul>
+
+<li>Threads</li>
+
+<ul> 
+<li>Single thread of control allows the process to perform only one task at a time.</li>
+<li>Multicore system, multiple threads can run in parallel.</li>
+</ul>
+</ul>
+
+<h4>3.2 Process Scheduling</h4>
+<ul>
+  <li>The objective of multiprogramming is to have some process running at all times, to maximize CPU utilization.</li>
+  <li>The objective of time sharing is to switch the CPU among processes so frequently that users can interact with each program while it is running.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+在鸡场的妈妈已经老了。
+看到她拖着脚步在屋里，屋子里、院子里低着头忙东忙西。
+她是个多么勤劳的妈妈，一刻也停不下来。
+
+
+
+每次看到她拖着她的步子，鼻子就酸。她把这么多年的心血洒在了我们身上，家里的每寸空间里，而岁月给了她什么，但是她还是如此的不知疲惫的为家付出着。
+
+记得很清楚，在小时候，我们四个出去忙一天，晚上回来后谁都不想动，除了她。尽管年幼的我们不懂事，各种诉说我们的饿与累，她却能精神抖擞的自动钻进厨房，不一会儿，凝聚着她的创造力，总是出乎想象的晚餐就出来了。她是神奇的妈妈，极具创造精神的母亲。
+
+
+
+
+不知道你有没有注意到。在鸡场时，她总是微驼着背，拖着小碎步，很经常的会忘记早上洗脸，总是忘东西。我是有多少次那么的担心她那么聪明的大脑会被鸡场拖累的慢慢老去，变成她的父亲，忘记我们。所以，这次买的ipad，就是想让她多玩游戏。而我发现，鸡场的琐事，让她根本没时间去用ipad。而这次我到家，就是为了改变他们的生活习惯，希望能起到作用。
+
+
+前天去新区三儿的订婚酒店之前，妈妈说，她要洗个头。一洗完头，换完衣服，挖！ 神采飞扬，顿时比平日里的年轻了真的不止10岁，
+
+妈，在她更年轻时，绝对是个大美女。
+就在那一刻，我的心突然像秋天干爽极了的湛蓝的天。原来，妈妈没有老，只是鸡场在拖累她，拖累她的精神，拖累她的思维。
+
+时光啊时光，你慢些走。我爱我的妈妈。
+
+
+
+咱们在鸡场，只是衣服换成了脏衣服，但是心情还是很好很年轻。而妈妈在鸡场换完衣服，真的真的神情都老了。
+
+
+
+我不知道，妈妈会被鸡场里的琐碎事，拖到什么情形，但我深知，我们的江康，伟大，富有创造力的妈妈现在的渴望。她是个渴望积极发展，渴望不断有新鲜事物出现的伟大女性。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <h3>Chap 8. Main Memory</h3>
 
-
-  <h4>
+<h4>
    The difference between the compile time address binding and execution time (run time) address binding. 
  </h4>
 
@@ -65,6 +521,10 @@
     <p>Another solution is allow processes to use non-contiguous blocks of physical memory, with a separate relocation register for each block.</p>
   </ul>
 </ul>
+
+
+
+
 
 
 
